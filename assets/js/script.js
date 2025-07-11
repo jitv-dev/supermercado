@@ -50,11 +50,7 @@ function cambiarCantidad(index, cambio) {
     input.value = valor;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    renderizarProductos();
-});
-
-function agregarAlCarrito(index){
+function agregarAlCarrito(index) {
     const cantidad = parseInt(document.getElementById(`cantidad-${index}`).value)
     const contador = document.getElementById("contador-carrito")
     let total = parseInt(contador.textContent)
@@ -62,3 +58,8 @@ function agregarAlCarrito(index){
     total += cantidad
     contador.textContent = total
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderizarProductos();
+});
+
