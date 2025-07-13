@@ -53,7 +53,7 @@ function cambiarCantidad(index, cambio) {
 
   input.value = valor;
 }
-
+// Función para agregar un producto al carrito
 function agregarAlCarrito(index) {
   const inputCantidad = document.getElementById(`cantidad-${index}`);
   const cantidad = parseInt(inputCantidad.value);
@@ -68,7 +68,7 @@ function agregarAlCarrito(index) {
 
   actualizarCarrito();
 }
-
+// Función para actualizar el carrito 
 function actualizarCarrito() {
   const lista = document.getElementById("lista-carrito");
   const contador = document.getElementById("contador-carrito");
@@ -79,9 +79,11 @@ function actualizarCarrito() {
   let totalItems = 0;
 
   carrito.forEach((p, i) => {
+    // Calcular el total y la cantidad de items
     total += p.precio * p.cantidad;
     totalItems += p.cantidad;
 
+    // Crear un elemento de lista para cada producto en el carrito
     const item = document.createElement("li");
     item.className = "list-group-item d-flex justify-content-between align-items-center";
     item.innerHTML = `${p.nombre} x${p.cantidad} $${p.precio} c/u`;
@@ -91,7 +93,7 @@ function actualizarCarrito() {
   contador.textContent = totalItems;
   totalSpan.textContent = total;
 }
-
+// para validar la cantidad del input aunque se ingrese manualmente un numero mayor (tambien hice algo en el css para que no se vean los botones de aumentar y disminuir)
 function validarCantidadInput(index) {
   const input = document.getElementById(`cantidad-${index}`);
   let valor = parseInt(input.value);
