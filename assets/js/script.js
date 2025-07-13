@@ -30,7 +30,7 @@ function renderizarProductos() {
                     </div>
                     <div class="d-flex align-items-center mb-2 justify-content-center">
                         <button class="btn btn-outline-secondary btn-sm " onclick="cambiarCantidad(${index}, -1)">-</button>
-                        <input type="number" id="cantidad-${index}" class="form-ontrol mx-2 text-center" value="1" min="1" max="10" style="width: 60px;">
+                        <input type="number" id="cantidad-${index}" class="form-control mx-2 text-center" value="1" min="1" max="10" style="width: 60px;">
                         <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidad(${index}, 1)">+</button>
                     </div>
                     <button class="btn btn-primary w-100" onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
