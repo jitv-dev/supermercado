@@ -18,10 +18,10 @@ function renderizarProductos() {
     card.innerHTML = `
             <div class="card h-100 shadow-sm">
                 <img src="${producto.imagen}" 
-                     class="card-img-top p-3" 
-                     alt="${producto.nombre}"
-                     onerror="this.onerror=null;this.src='../img/default.webp';"
-                     style="object-fit: contain; height: 200px;">
+                    class="card-img-top p-3" 
+                    alt="${producto.nombre}"
+                    onerror="this.onerror=null;this.src='../img/default.webp';"
+                    style="object-fit: contain; height: 200px;">
                 
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div class="text-center">
@@ -31,9 +31,9 @@ function renderizarProductos() {
                     <div class="d-flex align-items-center mb-2 justify-content-center">
                         <button class="btn btn-outline-secondary btn-sm " onclick="cambiarCantidad(${index}, -1)">-</button>
                         <input type="number" id="cantidad-${index}" class="form-control mx-2 text-center" value="1" min="1" max="10" style="width: 60px;"
-                         onchange="validarCantidadInput(${index})"
-                         onblur="validarCantidadInput(${index})"
-                         onkeyup="validarCantidadInput(${index})"/>
+                        onchange="validarCantidadInput(${index})"
+                        onblur="validarCantidadInput(${index})"
+                        onkeyup="validarCantidadInput(${index})"/>
                         <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidad(${index}, 1)">+</button>
                     </div>
                     <button class="btn btn-primary w-100" onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
@@ -73,25 +73,59 @@ function actualizarCarrito() {
   const lista = document.getElementById("lista-carrito");
   const contador = document.getElementById("contador-carrito");
   const totalSpan = document.getElementById("total-carrito");
+  const precioEnvio = document.getElementById("precio-envio");
+  const totalMasEnvio = document.getElementById("final-envio");
+  
 
   lista.innerHTML = "";
   let total = 0;
   let totalItems = 0;
+  let precioEnvioBase = 3000;
+
 
   carrito.forEach((p, i) => {
-    // Calcular el total y la cantidad de items
+
     total += p.precio * p.cantidad;
     totalItems += p.cantidad;
 
-    // Crear un elemento de lista para cada producto en el carrito
-    const item = document.createElement("li");
-    item.className = "list-group-item d-flex justify-content-between align-items-center";
-    item.innerHTML = `${p.nombre} x${p.cantidad} $${p.precio} c/u`;
-    lista.appendChild(item);
+  
+    const card = document.createElement("div");
+    card.className = "card mb-3";
+    card.innerHTML = `
+      <div class="card-body p-3">
+    <div class="row align-items-center">
+      <div class="col-md-6 d-flex align-items-center gap-3">
+        <img src="${p.imagen}" 
+            class="rounded" 
+            width="60" 
+            height="60"
+            style="object-fit: cover"
+            alt="${p.nombre}">
+        <div>
+          <h6 class="card-title mb-1 fw-semibold">${p.nombre}</h6>
+          <small class="text-muted">$${p.precio.toLocaleString()} c/u</small>
+        </div>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end align-items-center gap-3">
+        <span class="badge bg-primary rounded-pill px-3 py-2">${p.cantidad}</span>
+        <span class="fw-bold fs-5">$${(p.precio * p.cantidad).toLocaleString()}</span>
+      </div>
+    </div>
+  </div>
+    `;
+
+    lista.appendChild(card);
   });
 
+  if (total>30000){
+    precioEnvioBase= 0
+  }
+  
+  precioEnvio.textContent = `$${precioEnvioBase}`
+  totalMasEnvio.textContent = totalMasEnvio.textContent = `$${(total + precioEnvioBase).toFixed(0)}`;
+
   contador.textContent = totalItems;
-  totalSpan.textContent = total;
+  totalSpan.textContent = `$${total.toFixed(0)}`;
 }
 // para validar la cantidad del input aunque se ingrese manualmente un numero mayor (tambien hice algo en el css para que no se vean los botones de aumentar y disminuir)
 function validarCantidadInput(index) {

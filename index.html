@@ -36,9 +36,24 @@
         </div>
 
         <div class="offcanvas-body">
-            <ul id="lista-carrito" class="list-group mb-3"></ul>
-            <h5>Total: $<span id="total-carrito">0</span></h5>
-            <button class="btn btn-success mt-3" onclick="finalizarCompra()">Finalizar Compra</button>
+            <ul id="lista-carrito" class="mb-3 p-0"></ul>
+            <div class="card p-3 mb-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal:</span>
+                    <span id="total-carrito" class="fw-medium">$0</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Costo de envío:</span>
+                    <span id="precio-envio">$3.000</span>
+                </div>
+                <p class="text-muted small mb-3" style="opacity: 0.7;">Sobre $30.000 el envío es gratis</p>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Total:</span>
+                    <span id="final-envio" class="fw-bold">$0</span>
+                </div>
+            </div>
+            <button class="btn btn-success my-3 col-md-12" onclick="finalizarCompra()">Finalizar Compra</button>
         </div>
     </div>
 
