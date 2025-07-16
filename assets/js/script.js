@@ -113,12 +113,27 @@ function actualizarCarrito() {
             alt="${p.nombre}">
         <div>
           <h6 class="card-title mb-1 fw-semibold">${p.nombre}</h6>
-          <small class="text-muted">$${p.precio.toLocaleString()} c/u</small>
+          <small class="text-muted">$${p.precio} c/u</small>
         </div>
       </div>
-      <div class="col-md-6 d-flex justify-content-end align-items-center gap-3">
-        <span class="badge bg-primary rounded-pill px-3 py-2">${p.cantidad}</span>
-        <span class="fw-bold fs-5">$${(p.precio * p.cantidad).toLocaleString()}</span>
+      <div class="d-flex align-items-center">
+  <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidadEnCarrito(${i}, -1)">-</button>
+  <input
+    type="number"
+    id="cantidad-carrito-${i}"
+    class="form-control mx-2 text-center"
+    value="${p.cantidad}"
+    min="1"
+    max="10"
+    style="width: 60px;"
+    onchange="validarCantidadCarrito(${i})"
+    onblur="validarCantidadCarrito(${i})"
+    onkeyup="validarCantidadCarrito(${i})"
+  />
+  <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidadEnCarrito(${i}, 1)">+</button>
+</div>
+
+        <span class="fw-bold fs-5">$${(p.precio * p.cantidad)}</span>
         <button class="btn btn-danger btn-sm" onclick="eliminarDelCarrito(${i})">
               <i class="bi bi-trash"></i>
         </button>
@@ -140,7 +155,7 @@ function actualizarCarrito() {
   contador.textContent = totalItems;
   totalSpan.textContent = `$${total.toFixed(0)}`;
 }
-// para validar la cantidad del input aunque se ingrese manualmente un numero mayor (tambien hice algo en el css para que no se vean los botones de aumentar y disminuir)
+// para validar la cantidad del input aunque se ingrese manualmente un numero mayor 
 function validarCantidadInput(index) {
   const input = document.getElementById(`cantidad-${index}`);
   let valor = parseInt(input.value);
@@ -156,8 +171,48 @@ function eliminarDelCarrito(index) {
   carrito.splice(index, 1);
   actualizarCarrito();
 }
+function cambiarCantidadEnCarrito(index, cambio) {
+  let producto = carrito[index];
+  producto.cantidad += cambio;
 
+  if (producto.cantidad < 1) producto.cantidad = 1;
+  if (producto.cantidad > 10) producto.cantidad = 10;
 
+  actualizarCarrito();
+}
+
+function validarCantidadCarrito(index) {
+  const input = document.getElementById(`cantidad-carrito-${index}`);
+  let valor = parseInt(input.value);
+
+  if (isNaN(valor) || valor < 1) {
+    carrito[index].cantidad = 1;
+  } else if (valor > 10) {
+    carrito[index].cantidad = 10;
+  } else {
+    carrito[index].cantidad = valor;
+  }
+
+  actualizarCarrito();
+}
+function finalizarCompra() {
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío. Agrega productos antes de finalizar.");
+    return;
+  }
+
+  let total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+  let envio = total > 30000 ? 0 : 3000;
+  let totalFinal = total + envio;
+
+  const confirmacion = confirm(`Gracias por tu compra, ${nombreUsuario}.\n\nResumen:\nTotal productos: $${total}\nEnvío: $${envio}\n-----------------------\nTotal a pagar: $${totalFinal}\n\n¿Deseas confirmar tu compra?`);
+
+  if (confirmacion) {
+    alert("¡Compra realizada con éxito! Pronto recibirás tu pedido.");
+    carrito = [];
+    actualizarCarrito();
+  }
+}
 document.addEventListener("DOMContentLoaded", () => {
   renderizarProductos();
 });
