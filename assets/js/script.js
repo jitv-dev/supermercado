@@ -75,7 +75,9 @@ function actualizarCarrito() {
   const totalSpan = document.getElementById("total-carrito");
   const precioEnvio = document.getElementById("precio-envio");
   const totalMasEnvio = document.getElementById("final-envio");
-  
+  const carritoVacio = document.getElementById("carrito-vacio")
+  const carritoContenido = document.getElementById("carrito-contenido");
+
 
   lista.innerHTML = "";
   let total = 0;
@@ -83,12 +85,20 @@ function actualizarCarrito() {
   let precioEnvioBase = 3000;
 
 
+  if (carrito.length > 0) {
+    carritoVacio.style.display = "none";
+    carritoContenido.style.display = "block";
+  } else {
+    carritoVacio.style.display = "block";
+    carritoContenido.style.display = "none";
+  }
+
   carrito.forEach((p, i) => {
 
     total += p.precio * p.cantidad;
     totalItems += p.cantidad;
 
-  
+
     const card = document.createElement("div");
     card.className = "card mb-3";
     card.innerHTML = `
@@ -109,6 +119,9 @@ function actualizarCarrito() {
       <div class="col-md-6 d-flex justify-content-end align-items-center gap-3">
         <span class="badge bg-primary rounded-pill px-3 py-2">${p.cantidad}</span>
         <span class="fw-bold fs-5">$${(p.precio * p.cantidad).toLocaleString()}</span>
+        <button class="btn btn-danger btn-sm" onclick="eliminarDelCarrito(${i})">
+              <i class="bi bi-trash"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -117,10 +130,10 @@ function actualizarCarrito() {
     lista.appendChild(card);
   });
 
-  if (total>30000){
-    precioEnvioBase= 0
+  if (total > 30000) {
+    precioEnvioBase = 0
   }
-  
+
   precioEnvio.textContent = `$${precioEnvioBase}`
   totalMasEnvio.textContent = totalMasEnvio.textContent = `$${(total + precioEnvioBase).toFixed(0)}`;
 
@@ -138,6 +151,12 @@ function validarCantidadInput(index) {
     input.value = 10;
   }
 }
+
+function eliminarDelCarrito(index) {
+  carrito.splice(index, 1);
+  actualizarCarrito();
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   renderizarProductos();
