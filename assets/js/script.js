@@ -102,45 +102,38 @@ function actualizarCarrito() {
     const card = document.createElement("div");
     card.className = "card mb-3";
     card.innerHTML = `
-      <div class="card-body p-3">
-    <div class="row align-items-center">
-      <div class="col-md-6 d-flex align-items-center gap-3">
-        <img src="${p.imagen}" 
-            class="rounded" 
-            width="60" 
-            height="60"
-            style="object-fit: cover"
-            alt="${p.nombre}">
-        <div>
-          <h6 class="card-title mb-1 fw-semibold">${p.nombre}</h6>
-          <small class="text-muted">$${p.precio} c/u</small>
-        </div>
-      </div>
-      <div class="d-flex align-items-center">
-  <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidadEnCarrito(${i}, -1)">-</button>
-  <input
-    type="number"
-    id="cantidad-carrito-${i}"
-    class="form-control mx-2 text-center"
-    value="${p.cantidad}"
-    min="1"
-    max="10"
-    style="width: 60px;"
-    onchange="validarCantidadCarrito(${i})"
-    onblur="validarCantidadCarrito(${i})"
-    onkeyup="validarCantidadCarrito(${i})"
-  />
-  <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidadEnCarrito(${i}, 1)">+</button>
-</div>
-
-        <span class="fw-bold fs-5">$${(p.precio * p.cantidad)}</span>
-        <button class="btn btn-danger btn-sm" onclick="eliminarDelCarrito(${i})">
-              <i class="bi bi-trash"></i>
-        </button>
-      </div>
+  <div class="card-body p-3 text-center">
+    <div class="mb-3">
+      <img src="${p.imagen}" 
+           class="rounded" 
+           width="80" 
+           height="80"
+           style="object-fit: cover"
+           alt="${p.nombre}">
     </div>
+    <h6 class="card-title mb-1 fw-semibold">${p.nombre}</h6>
+    <small class="text-muted d-block mb-1">$${p.precio} c/u</small>
+    
+    <div class="d-flex justify-content-center align-items-center mb-1">
+      <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidadEnCarrito(${i}, -1)">-</button>
+      <input
+        type="number"
+        id="cantidad-carrito-${i}"
+        class="form-control mx-2 text-center"
+        value="${p.cantidad}"
+        min="1"
+        max="10"
+        style="width: 60px;"
+        onchange="validarCantidadCarrito(${i})"
+      />
+      <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidadEnCarrito(${i}, 1)">+</button>
+    </div>
+    <span class="fw-bold fs-5 d-block mb-1">$${(p.precio * p.cantidad)}</span>
+    <button class="btn btn-danger btn-sm w-100" onclick="eliminarDelCarrito(${i})">
+      <i class="bi bi-trash"></i> Eliminar
+    </button>
   </div>
-    `;
+`;
 
     lista.appendChild(card);
   });
