@@ -4,7 +4,7 @@ const productos = [
   { nombre: "Bolsa de Basura", precio: 550, imagen: "assets/img/basura.webp" },
 ];
 
-let nombreUsuario = prompt("Por favor ingrese su nombre");
+let nombreUsuario = prompt("Por favor ingrese su nombre") || "Invitad@";
 document.getElementById("nombreUsuario").textContent = nombreUsuario;
 let carrito = [];
 
